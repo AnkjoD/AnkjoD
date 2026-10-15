@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="132" viewBox="0 0 960 132" role="img" aria-labelledby="title desc">
+<title id="title">Thống kê công khai của AnkjoD</title>
+<desc id="desc">KHO CÔNG KHAI: 8; SAO NHẬN ĐƯỢC: 0; LƯỢT FORK: 0; NGƯỜI THEO DÕI: 0. Cập nhật 15/10/2026 · 08:58 UTC.</desc>
+<rect x="1" y="1" width="958" height="130" rx="14" fill="#100d18" stroke="#33263f"/>
+<g font-family="Segoe UI,DejaVu Sans,Arial,sans-serif">
+<text x="30" y="62" fill="#c3a5ee" font-size="38" font-weight="600">8</text>
+<text x="30" y="99" fill="#c4bacf" font-size="12" letter-spacing="1">KHO CÔNG KHAI</text>
+<path d="M237 24V108" stroke="#33263f"/>
+<text x="264" y="62" fill="#eab4c8" font-size="38" font-weight="600">0</text>
+<text x="264" y="99" fill="#c4bacf" font-size="12" letter-spacing="1">SAO NHẬN ĐƯỢC</text>
+<path d="M471 24V108" stroke="#33263f"/>
+<text x="498" y="62" fill="#c3a5ee" font-size="38" font-weight="600">0</text>
+<text x="498" y="99" fill="#c4bacf" font-size="12" letter-spacing="1">LƯỢT FORK</text>
+<path d="M705 24V108" stroke="#33263f"/>
+<text x="732" y="62" fill="#eab4c8" font-size="38" font-weight="600">0</text>
+<text x="732" y="99" fill="#c4bacf" font-size="12" letter-spacing="1">NGƯỜI THEO DÕI</text>
+</g></svg>

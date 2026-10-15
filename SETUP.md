@@ -16,7 +16,7 @@ AnkjoD/
 │   ├── header.gif
 │   ├── header.png
 │   ├── skill-icons.svg
-│   └── stats.svg
+│   └── stats-card.svg
 ├── scripts/
 │   ├── make_header.py
 │   └── update_stats.py
@@ -35,9 +35,9 @@ Có thể dùng **Add file → Upload files** cho README, SETUP, assets và scri
 
 1. Mở repository → **Actions**. Cho phép workflow chạy nếu GitHub yêu cầu.
 2. Chọn **Update profile stats → Run workflow** trên nhánh mặc định.
-3. Khi chạy thành công, bot ghi lại `assets/stats.svg`. Thẻ ban đầu trong gói đã lấy dữ liệu thật từ API GitHub; lần chạy này làm mới dữ liệu sau khi bạn cài đặt.
+3. Khi chạy thành công, bot ghi lại `assets/stats-card.svg`. Thẻ ban đầu trong gói đã lấy dữ liệu thật từ API GitHub; lần chạy này làm mới dữ liệu sau khi bạn cài đặt.
 
-Workflow đặt lịch mỗi ngày lúc **07:23 giờ Việt Nam/Thái Lan (UTC+7)**. Lịch GitHub có thể chạy trễ; repository công khai không có hoạt động lâu ngày có thể bị tắt lịch, khi đó mở Actions để bật lại. Số liệu là ảnh chụp tại thời điểm ghi trên thẻ, không phải bộ đếm trực tiếp.
+Workflow đặt lịch mỗi ngày lúc **07:23 giờ Việt Nam/Thái Lan (UTC+7)**. Lịch GitHub có thể chạy trễ; repository công khai không có hoạt động lâu ngày có thể bị tắt lịch, khi đó mở Actions để bật lại. Số liệu là ảnh chụp tại thời điểm ghi trong mô tả SVG, không phải bộ đếm trực tiếp.
 
 Không cần tự tạo token cá nhân: workflow dùng `GITHUB_TOKEN` sẵn có, quyền `contents: write` để lưu thẻ. Nếu gặp `403` lúc push, kiểm tra **Settings → Actions → General → Workflow permissions** và chính sách repository. Nhánh có quy tắc cấm bot đẩy trực tiếp cần cho phép cập nhật phù hợp với quy tắc của bạn. Nếu chưa bật Actions, hình vẫn hiển thị, chỉ chưa được làm mới.
 
@@ -59,7 +59,7 @@ Bảng màu: nền `#0b0910`, bề mặt `#100d18`, tím `#c3a5ee`, hồng `#eab
 
 Banner GIF tự lặp, lưu ngay trong repository. Không có máy chủ ảnh động, font từ xa hoặc dịch vụ stats công cộng cần hoạt động mỗi lần mở profile. Dải logo kỹ năng lấy từ [Skill Icons](https://github.com/tandpfun/skill-icons) và đã lưu thành SVG cục bộ, không cần gọi dịch vụ icon khi xem profile. Để đổi dải icon, tải ảnh từ `https://skillicons.dev/icons?i=java,python,react,nodejs,ts&theme=dark&perline=5`, thay danh sách sau `i=` theo kỹ năng thật rồi lưu vào `assets/skill-icons.svg`.
 
-Bố cục hiện tại giữ banner cũ, căn giữa dải kỹ năng và liên kết ba kho mã thật. Thống kê nằm trong mục bấm mở để phần đầu profile gọn hơn. Không dùng câu giới thiệu hay thông tin cá nhân chưa xác nhận.
+Bố cục hiện tại giữ banner cũ, căn giữa dải kỹ năng, không hiển thị danh sách kho mã. Thống kê nằm trong mục bấm mở để phần đầu profile gọn hơn. Không dùng câu giới thiệu hay thông tin cá nhân chưa xác nhận.
 
 ### Tạo lại banner trên máy (tùy chọn)
 
@@ -83,8 +83,9 @@ python scripts/update_stats.py
 - Kiểm tra đã tải cả thư mục `assets`, tên file đúng chữ hoa/thường và đường dẫn trong README chưa bị đổi.
 - Mở ảnh trực tiếp trong repository để xác nhận file tồn tại; commit rồi đợi GitHub cập nhật bộ nhớ đệm.
 - Ảnh động không chạy trong một số trình xem Markdown hoặc khi người xem chặn chuyển động. Dùng ảnh PNG nếu muốn.
-- Kiểm tra thời điểm trên thẻ stats và lịch sử Actions nếu dữ liệu cũ. Không cần thay số bằng tay.
+- Kiểm tra lịch sử Actions nếu dữ liệu cũ. Không cần thay số bằng tay.
 
 README, ảnh và mã cập nhật đều nằm trong repository; bạn có thể chỉnh sửa trực tiếp bất cứ lúc nào.
+
 
 

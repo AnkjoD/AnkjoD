@@ -43,23 +43,21 @@ def main():
     ]
     stamp = datetime.now(timezone.utc).strftime("%d/%m/%Y · %H:%M UTC")
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="196" viewBox="0 0 960 196" role="img" aria-labelledby="title desc">',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="132" viewBox="0 0 960 132" role="img" aria-labelledby="title desc">',
         f'<title id="title">Thống kê công khai của {escape(USERNAME)}</title>',
         '<desc id="desc">' + escape("; ".join(f"{label}: {value}" for value, label in metrics)) + f'. Cập nhật {stamp}.</desc>',
-        '<rect x="1" y="1" width="958" height="194" rx="14" fill="#100d18" stroke="#33263f"/>',
+        '<rect x="1" y="1" width="958" height="130" rx="14" fill="#100d18" stroke="#33263f"/>',
         '<g font-family="Segoe UI,DejaVu Sans,Arial,sans-serif">',
-        f'<text x="30" y="33" fill="#bbaaca" font-size="12" letter-spacing="2">{escape(USERNAME)} / GITHUB</text>',
-        f'<text x="930" y="33" text-anchor="end" fill="#a599b4" font-size="12">{stamp}</text>',
     ]
     for index, (value, label) in enumerate(metrics):
         x = 30 + 234 * index
         color = "#eab4c8" if index in (1, 3) else "#c3a5ee"
-        parts.append(f'<text x="{x}" y="106" fill="{color}" font-size="38" font-weight="600">{value:,}</text>')
-        parts.append(f'<text x="{x}" y="139" fill="#c4bacf" font-size="12" letter-spacing="1">{label}</text>')
+        parts.append(f'<text x="{x}" y="62" fill="{color}" font-size="38" font-weight="600">{value:,}</text>')
+        parts.append(f'<text x="{x}" y="99" fill="#c4bacf" font-size="12" letter-spacing="1">{label}</text>')
         if index < 3:
-            parts.append(f'<path d="M{x + 207} 68V145" stroke="#33263f"/>')
-    parts.extend(['<text x="30" y="176" fill="#a599b4" font-size="11">Sao / fork: chỉ tính kho sở hữu không phải fork. Không đọc dữ liệu riêng tư.</text>', '</g></svg>'])
-    destination = ROOT / "assets" / "stats.svg"
+            parts.append(f'<path d="M{x + 207} 24V108" stroke="#33263f"/>')
+    parts.append('</g></svg>')
+    destination = ROOT / "assets" / "stats-card.svg"
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_suffix(".tmp")
     temporary.write_text("\n".join(parts), encoding="utf-8")
