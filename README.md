@@ -8,19 +8,15 @@
   <a href="https://github.com/AnkjoD?tab=stars">Đã đánh dấu sao</a>
 </p>
 
-<br />
-
 <h3 align="center">Công nghệ sử dụng</h3>
 
 <p align="center">
-  <img src="assets/skills.svg" width="248" alt="Java, Python, ReactJS, Node.js và TypeScript" />
+  <img src="assets/skill-icons.svg" width="273" alt="Java, Python, ReactJS, Node.js và TypeScript" />
 </p>
 
 <p align="center">
   <sub>Java &nbsp; / &nbsp; Python &nbsp; / &nbsp; ReactJS &nbsp; / &nbsp; Node.js &nbsp; / &nbsp; TypeScript</sub>
 </p>
-
-<br />
 
 <h3 align="center">Kho mã nguồn</h3>
 
@@ -49,3 +45,4 @@
 </details>
 
 <!-- Chỉnh nội dung tại đây; hướng dẫn cài đặt và cập nhật nằm trong SETUP.md. -->
+
