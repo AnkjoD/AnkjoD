@@ -30,6 +30,61 @@ def polar(cx, cy, radius, angle):
     return (cx + radius * math.cos(angle), cy + radius * math.sin(angle))
 
 
+def law_of_cycles(d, phase, cx=776, cy=135):
+    """A simplified vector interpretation of the Rebellion emblem, not an official asset."""
+    pulse = math.sin(phase * math.tau)
+    # Gold annulus with evenly repeated segments; one segment per loop is seamless.
+    for radius, ink, width in [(82, "#c7a888", 3), (76, "#dfc4ad", 1), (67, "#b77e9e", 2)]:
+        d.ellipse((cx-radius, cy-radius, cx+radius, cy+radius), outline=ink, width=width)
+    for index in range(48):
+        angle = (index + phase) * math.tau / 48
+        d.line([polar(cx, cy, 77, angle), polar(cx, cy, 81, angle)], fill="#b38c72", width=2)
+    # Eight-point compass star, with the vertical tips slightly longer.
+    star = []
+    for index in range(32):
+        angle = index * math.tau / 32 - math.pi / 2
+        if index % 4 == 0:
+            radius = (100 if index in (0, 16) else 87) * (1 + 0.012 * pulse)
+        elif index % 2 == 0:
+            radius = 25
+        else:
+            radius = 13
+        star.append(polar(cx, cy, radius, angle))
+    ink = tuple(round(base + 5 * pulse) for base in (188, 91, 145))
+    d.polygon(star, fill=ink)
+    d.ellipse((cx-8, cy-8, cx+8, cy+8), fill="#fff5fc")
+    # Crown and small round finial.
+    crown = [(cx-17, cy-83), (cx-22, cy-104), (cx-8, cy-94), (cx, cy-115), (cx+8, cy-94), (cx+22, cy-104), (cx+17, cy-83)]
+    d.polygon(crown, fill="#f1d3e5", outline="#ba6a98")
+    d.line((cx-16, cy-84, cx+16, cy-84), fill="#ba6a98", width=2)
+    d.ellipse((cx-3, cy-124, cx+3, cy-118), fill="#b68b9e")
+
+    def curve(points, steps=24):
+        a, b, c, e = points
+        return [((1-t)**3*a[0] + 3*(1-t)**2*t*b[0] + 3*(1-t)*t*t*c[0] + t**3*e[0],
+                 (1-t)**3*a[1] + 3*(1-t)**2*t*b[1] + 3*(1-t)*t*t*c[1] + t**3*e[1])
+                for t in (index / steps for index in range(steps+1))]
+
+    # White upward-swept wings, mirrored and anchored while the ring moves.
+    wing = curve([(0, 58), (-37, 63), (-78, 29), (-111, 13)])
+    wing += curve([(-111, 13), (-105, 34), (-88, 41), (-78, 43)])
+    wing += [(-101, 35), (-85, 54), (-62, 59), (-87, 53), (-70, 70), (-43, 73), (-68, 69), (-46, 85), (-18, 80), (0, 69)]
+    for sign in (-1, 1):
+        def wing_point(x, y):
+            return (cx + sign*x, cy + y - 3 * pulse * abs(x) / 111)
+        points = [wing_point(x, y) for x, y in wing]
+        d.polygon(points, fill="#fffafd", outline="#b991aa")
+        for y, reach in [(45, 82), (58, 66), (70, 47)]:
+            feather = curve([(-12, 66), (-29, 68), (-reach+8, y+2), (-reach, y)])
+            d.line([wing_point(x, yy) for x, yy in feather], fill="#dfc6d7", width=1)
+    # A clear caption replaces illegible imitation runes at banner size.
+    caption = "LAW OF CYCLES"
+    d.text((cx, cy+105), caption, anchor="mm", font=font(11), fill="#9d6c8d")
+    for sx, sy, offset in [(cx-126, cy-51, 0), (cx+111, cy-72, 0.3), (cx+113, cy+87, 0.65)]:
+        size = 4 + 1.5 * math.sin((phase + offset) * math.tau)
+        d.polygon([(sx, sy-size), (sx+1, sy-1), (sx+size, sy), (sx+1, sy+1), (sx, sy+size), (sx-1, sy+1), (sx-size, sy), (sx-1, sy-1)], fill="#c798b4")
+
+
 def frame(phase, theme="dark"):
     light_palette = {
         "#0b0910": "#fff9fc", "#100d18": "#f9edf4", "#171020": "#f3dfeb",
@@ -62,27 +117,7 @@ def frame(phase, theme="dark"):
     d.text((44, 241), "MADOKA KANAME × HOMURA AKEMI", font=font(12), fill=tone("#b6a6c4"))
 
     if theme == "light":
-        # Madoka's light motif: a rose, ribbon and a luminous gem; no clock.
-        cx, cy = 776, 147
-        breath = 1 + 0.025 * math.sin(phase * math.tau)
-        for radius, ink, weight in [(107, "#ddb2ce", 1), (83, "#bd7ba3", 2)]:
-            petals = []
-            for index in range(361):
-                angle = index * math.tau / 360
-                distance = radius * breath * (0.79 + 0.21 * math.cos(5 * (angle + math.pi / 2)))
-                petals.append(polar(cx, cy, distance, angle))
-            d.line(petals, fill=ink, width=weight, joint="curve")
-        # A restrained ribbon bow with two long tails.
-        d.polygon([(776, 220), (733, 205), (740, 231), (774, 225)], fill="#ead0df", outline="#bf87a8")
-        d.polygon([(778, 220), (819, 205), (812, 231), (778, 225)], fill="#ead0df", outline="#bf87a8")
-        d.polygon([(773, 225), (760, 257), (773, 251), (779, 227)], fill="#d8a8c3")
-        d.polygon([(780, 225), (794, 253), (799, 246), (784, 223)], fill="#d8a8c3")
-        d.ellipse((771, 218, 783, 230), fill="#b8759a")
-        d.polygon([(776, 121), (791, 147), (776, 173), (761, 147)], fill="#f1d8e7", outline="#b76d97")
-        d.line([(776, 127), (776, 167)], fill="#fff9fc", width=2)
-        for sx, sy, offset in [(655, 91, 0), (870, 66, 0.3), (884, 199, 0.65), (681, 218, 0.8)]:
-            size = 5 + 2 * math.sin((phase + offset) * math.tau)
-            d.polygon([(sx, sy-size), (sx+2, sy-2), (sx+size, sy), (sx+2, sy+2), (sx, sy+size), (sx-2, sy+2), (sx-size, sy), (sx-2, sy-2)], fill="#c38bad")
+        law_of_cycles(d, phase)
         return canvas
 
     cx, cy = 772, 147
@@ -119,6 +154,15 @@ def main():
         palette = frames[0].quantize(colors=128)
         indexed = [item.quantize(palette=palette, dither=Image.Dither.NONE) for item in frames]
         indexed[0].save(destination / f"{stem}.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
+    emblem_frames = []
+    for index in range(60):
+        emblem = Image.new("RGB", (320, 280), "#fff9fc")
+        law_of_cycles(ImageDraw.Draw(emblem), index / 60, 160, 135)
+        emblem_frames.append(emblem)
+    emblem_frames[0].save(destination / "law-of-cycles.png")
+    palette = emblem_frames[0].quantize(colors=128)
+    indexed = [item.quantize(palette=palette, dither=Image.Dither.NONE) for item in emblem_frames]
+    indexed[0].save(destination / "law-of-cycles.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
     print("Generated animated and static banners for light and dark themes")
 
 

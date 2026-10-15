@@ -95,8 +95,11 @@ README, ảnh và mã cập nhật đều nằm trong repository; bạn có th�
 
 ## Banner tự đổi sáng / tối
 
-README dùng phần tử picture với prefers-color-scheme theo hỗ trợ của GitHub. Dark mode dùng assets/header.gif; light mode dùng assets/header-light.gif. Cả hai là GIF vòng lặp 6 giây, có bản PNG tương ứng. Bản sáng lấy cảm hứng Madoka: nền trắng hồng, hoa năm cánh, nơ và viên ngọc sáng; không có đồng hồ. Bản tối giữ đồng hồ tím của Homura. Trình xem không hỗ trợ picture sẽ dùng banner tối mặc định.
+README dùng phần tử picture với prefers-color-scheme theo hỗ trợ của GitHub. Dark mode dùng assets/header.gif; light mode dùng assets/header-light.gif. Cả hai là GIF vòng lặp 6 giây, có bản PNG tương ứng. Bản sáng lấy cảm hứng Madoka: nền trắng hồng và biểu tượng Law of Cycles cách điệu, gồm ngôi sao tám cánh, vương miện, vòng tròn và đôi cánh. Vòng ngoài xoay chậm, ngôi sao sáng nhẹ, cánh chuyển động nhỏ. Bản tối giữ đồng hồ tím của Homura. Trình xem không hỗ trợ picture sẽ dùng banner tối mặc định.
 
 Tài liệu: https://github.blog/changelog/2022-08-15-specify-theme-context-for-images-in-markdown-ga/
 
+
+
+Mẫu Law of Cycles tham khảo: https://wiki.puella-magi.net/Law_of_Cycles . Hình trong banner được dựng lại bằng nét hình học, không phải logo chính thức nguyên bản. GIF riêng nằm tại assets/law-of-cycles.gif, ảnh tĩnh tại assets/law-of-cycles.png. Cả banner và logo dùng vòng lặp 6 giây, 60 khung hình.
 
