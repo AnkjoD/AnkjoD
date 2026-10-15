@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/header-dark-atmosphere.gif" />
-    <source media="(prefers-color-scheme: light)" srcset="assets/header-light-wings.gif" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/header-light-atmosphere.gif" />
     <img src="assets/header-dark-atmosphere.gif" width="960" alt="AnkjoD — Madoka Kaname × Homura Akemi" />
   </picture>
 </p>

@@ -180,6 +180,50 @@ def homura_background(canvas, phase):
     canvas.paste(sky, (0,0), sky)
 
 
+def madoka_background(canvas, phase):
+    """Rose-gold haze, drifting petals and light behind the Law of Cycles."""
+    angle = phase * math.tau
+    haze = Image.new("RGBA", (240, 75))
+    glow = ImageDraw.Draw(haze)
+    dx, dy = 8*math.sin(angle), 4*math.cos(angle)
+    glow.ellipse((112+dx, -14+dy, 233+dx, 78+dy), fill=(235, 160, 202, 68))
+    glow.ellipse((171-dx, -15-dy, 257-dx, 66-dy), fill=(255, 221, 155, 86))
+    haze = haze.filter(ImageFilter.GaussianBlur(11)).resize((WIDTH, HEIGHT), Image.Resampling.BICUBIC)
+    canvas.paste(haze, (0,0), haze)
+    layer = Image.new("RGBA", (WIDTH, HEIGHT))
+    d = ImageDraw.Draw(layer)
+    # Soft paths of light, clear of the name and behind the emblem.
+    for ribbon in range(2):
+        points = []
+        for x in range(440, 990, 3):
+            y = 80+127*ribbon+28*math.sin((x-440)*0.006+ribbon)+12*math.sin(angle+(x-440)*0.004)
+            points.append((x,y))
+        d.line(points, fill=(198, 124, 163, 57) if ribbon == 0 else (200, 162, 99, 68), width=2)
+    # Petals drift on periodic paths so there is no jump at the loop boundary.
+    for index in range(9):
+        offset = index*2.39996
+        x = 476+(index*137 % 442)+17*math.sin(angle+offset)
+        y = 25+(index*73 % 242)+11*math.cos(angle+offset)
+        rotation = offset+0.45*math.sin(angle+offset)
+        length = 7+(index%3)*2
+        local = [(0,-length), (length*0.6,-length*0.35), (length*0.45,length*0.55), (0,length), (-length*0.35,length*0.3), (-length*0.42,-length*0.3)]
+        points = [(x+px*math.cos(rotation)-py*math.sin(rotation), y+px*math.sin(rotation)+py*math.cos(rotation)) for px,py in local]
+        d.polygon(points, fill=(206, 135, 173, 68+index%3*17))
+    for index in range(20):
+        offset = index*2.39996
+        x = 455+(index*101 % 490)+8*math.sin(angle+offset)
+        y = 17+(index*61 % 264)+6*math.cos(angle+offset)
+        light = (1+math.sin(angle+offset))/2
+        radius = 0.8+1.1*light
+        color = (174, 119, 164, round(60+90*light)) if index%2 else (191, 150, 72, round(65+100*light))
+        d.ellipse((x-radius,y-radius,x+radius,y+radius), fill=color)
+        if index%7 == 0:
+            size = 3+light*2
+            d.line((x-size,y,x+size,y), fill=color, width=1)
+            d.line((x,y-size,x,y+size), fill=color, width=1)
+    canvas.paste(layer,(0,0),layer)
+
+
 def frame(phase, theme="dark"):
     light_palette = {
         "#0b0910": "#fff9fc", "#100d18": "#f9edf4", "#171020": "#f3dfeb",
@@ -200,6 +244,8 @@ def frame(phase, theme="dark"):
     d.polygon([(812, 0), (960, 0), (960, 300), (660, 300)], fill=tone("#171020"))
     if theme == "dark":
         homura_background(canvas, phase)
+    else:
+        madoka_background(canvas, phase)
     d.rectangle((0, 0, 959, 299), outline=tone("#33263f"), width=1)
     d.line((42, 42, 90, 42), fill=tone(PURPLE), width=3)
     d.text((104, 33), "MADOKA KANAME" if theme == "light" else "HOMURA / MADOKA", font=font(13), fill=tone("#baa6c9"))
@@ -222,7 +268,7 @@ def frame(phase, theme="dark"):
 def main():
     destination = ROOT / "assets"
     destination.mkdir(parents=True, exist_ok=True)
-    for theme, stem in [("dark", "header-dark-atmosphere"), ("light", "header-light-wings")]:
+    for theme, stem in [("dark", "header-dark-atmosphere"), ("light", "header-light-atmosphere")]:
         count, duration = (150, 40) if theme == "dark" else (60, 100)
         frames = [frame(index / count, theme) for index in range(count)]
         frames[0].save(destination / f"{stem}.png")
