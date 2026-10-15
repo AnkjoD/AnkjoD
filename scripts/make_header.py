@@ -73,13 +73,18 @@ def law_of_cycles(d, phase, cx=776, cy=135):
                  (1-t)**3*a[1] + 3*(1-t)**2*t*b[1] + 3*(1-t)*t*t*c[1] + t**3*e[1])
                 for t in (index / steps for index in range(steps+1))]
 
-    # White upward-swept wings, mirrored and anchored while the ring moves.
+    # Wings flap from fixed shoulder joints, twice per six-second loop.
     wing = curve([(0, 58), (-37, 63), (-78, 29), (-111, 13)])
     wing += curve([(-111, 13), (-105, 34), (-88, 41), (-78, 43)])
     wing += [(-101, 35), (-85, 54), (-62, 59), (-87, 53), (-70, 70), (-43, 73), (-68, 69), (-46, 85), (-18, 80), (0, 69)]
     for sign in (-1, 1):
         def wing_point(x, y):
-            return (cx + sign*x, cy + y - 14 * pulse * abs(x) / 111)
+            angle = math.radians(24) * math.sin(phase * math.tau * 2)
+            shoulder_y = 64
+            local_y = y - shoulder_y
+            rotated_x = x * math.cos(angle) - local_y * math.sin(angle)
+            rotated_y = x * math.sin(angle) + local_y * math.cos(angle)
+            return (cx + sign*rotated_x, cy + shoulder_y + rotated_y)
         points = [wing_point(x, y) for x, y in wing]
         d.polygon(points, fill="#fffafd", outline="#b991aa")
         for y, reach in [(45, 82), (58, 66), (70, 47)]:
@@ -155,7 +160,7 @@ def frame(phase, theme="dark"):
 def main():
     destination = ROOT / "assets"
     destination.mkdir(parents=True, exist_ok=True)
-    for theme, stem in [("dark", "header"), ("light", "header-light-motion")]:
+    for theme, stem in [("dark", "header"), ("light", "header-light-wings")]:
         frames = [frame(index / 60, theme) for index in range(60)]
         frames[0].save(destination / f"{stem}.png")
         # Use a shared palette to keep colors stable across frames.
@@ -167,10 +172,10 @@ def main():
         emblem = Image.new("RGB", (320, 280), "#fff9fc")
         law_of_cycles(ImageDraw.Draw(emblem), index / 60, 160, 135)
         emblem_frames.append(emblem)
-    emblem_frames[0].save(destination / "law-of-cycles-motion.png")
+    emblem_frames[0].save(destination / "law-of-cycles-wings.png")
     palette = emblem_frames[0].quantize(colors=128)
     indexed = [item.quantize(palette=palette, dither=Image.Dither.NONE) for item in emblem_frames]
-    indexed[0].save(destination / "law-of-cycles-motion.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
+    indexed[0].save(destination / "law-of-cycles-wings.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
     print("Generated animated and static banners for light and dark themes")
 
 
