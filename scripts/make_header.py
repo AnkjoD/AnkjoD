@@ -3,7 +3,7 @@
 import math
 import os
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 WIDTH, HEIGHT = 960, 300
@@ -98,6 +98,48 @@ def law_of_cycles(d, phase, cx=776, cy=135):
         d.polygon([(sx, sy-size), (sx+1, sy-1), (sx+size, sy), (sx+1, sy+1), (sx, sy+size), (sx-1, sy+1), (sx-size, sy), (sx-1, sy-1)], fill="#c798b4")
 
 
+def homura_clock(canvas, phase):
+    """Render at triple resolution for smooth hands and restrained soft light."""
+    scale = 3
+    layer = Image.new("RGBA", (300*scale, 300*scale))
+    pen = ImageDraw.Draw(layer)
+    cx, cy = 150, 145
+
+    def box(radius):
+        return tuple(value*scale for value in (cx-radius, cy-radius, cx+radius, cy+radius))
+
+    def line(points, fill, width=1):
+        pen.line([(x*scale, y*scale) for x,y in points], fill=fill, width=max(1,round(width*scale)))
+
+    # A diffuse halo is kept behind the crisp clock face.
+    pen.ellipse(box(100), outline=(145, 101, 184, 65), width=5*scale)
+    layer = layer.filter(ImageFilter.GaussianBlur(5*scale))
+    pen = ImageDraw.Draw(layer)
+    pen.ellipse(box(96), fill=(17, 12, 26, 245), outline="#69507f", width=scale)
+    pen.ellipse(box(102), outline="#392743", width=scale)
+    pen.ellipse(box(83), outline="#34243f", width=scale)
+    for tick in range(60):
+        angle = tick*math.tau/60 - math.pi/2
+        major = tick % 5 == 0
+        line([polar(cx,cy,86 if major else 91,angle), polar(cx,cy,94,angle)], "#b293cb" if major else "#554260", 1.4 if major else 0.6)
+    angle = phase*math.tau - math.pi/2
+    # A short light trail makes the sweep legible without filling the dial.
+    for trail in range(18):
+        a = angle - trail*0.014
+        alpha = round(105*(1-trail/18))
+        line([(cx,cy), polar(cx,cy,71,a)], (184,143,218,alpha), 1)
+    line([polar(cx,cy,12,angle+math.pi), polar(cx,cy,73,angle)], "#d6b9ed", 1.8)
+    line([(cx,cy),polar(cx,cy,45,-2.2)], "#9274ae", 3)
+    pen.ellipse(box(4), fill="#e2c9f4")
+    pen.ellipse(box(1.5), fill="#634378")
+    sx, sy = 37, 72
+    radius = 10 + math.sin(phase*math.tau)
+    points=[(sx,sy-radius),(sx+2,sy-2),(sx+radius,sy),(sx+2,sy+2),(sx,sy+radius),(sx-2,sy+2),(sx-radius,sy),(sx-2,sy-2)]
+    pen.polygon([(x*scale,y*scale) for x,y in points],fill="#dcaac3")
+    layer = layer.resize((300,300), Image.Resampling.LANCZOS)
+    canvas.paste(layer,(622,0),layer)
+
+
 def frame(phase, theme="dark"):
     light_palette = {
         "#0b0910": "#fff9fc", "#100d18": "#f9edf4", "#171020": "#f3dfeb",
@@ -116,11 +158,6 @@ def frame(phase, theme="dark"):
     # Restrained diagonal panels and hairline grid.
     d.polygon([(600, 0), (960, 0), (960, 300), (440, 300)], fill=tone("#100d18"))
     d.polygon([(812, 0), (960, 0), (960, 300), (660, 300)], fill=tone("#171020"))
-    if theme == "dark":
-        for x in range(624, 960, 32):
-            d.line((x, 0, x, 300), fill=tone("#1c1526"))
-        for y in range(22, 300, 32):
-            d.line((600, y, 960, y), fill=tone("#1c1526"))
     d.rectangle((0, 0, 959, 299), outline=tone("#33263f"), width=1)
     d.line((42, 42, 90, 42), fill=tone(PURPLE), width=3)
     d.text((104, 33), "MADOKA KANAME" if theme == "light" else "HOMURA / MADOKA", font=font(13), fill=tone("#baa6c9"))
@@ -133,25 +170,8 @@ def frame(phase, theme="dark"):
         law_of_cycles(d, phase)
         return canvas
 
-    cx, cy = 772, 147
-    for radius, color in [(111, "#4c385e"), (99, "#74568c"), (84, "#35253f")]:
-        d.ellipse((cx-radius, cy-radius, cx+radius, cy+radius), outline=tone(color), width=1)
-    for tick in range(60):
-        a = tick * math.tau / 60 - math.pi / 2
-        long = tick % 5 == 0
-        d.line([polar(cx, cy, 103 if long else 107, a), polar(cx, cy, 111, a)], fill=tone("#aa89c6" if long else "#4c385e"), width=2 if long else 1)
-    # The thin hand completes one slow loop; a second hand stays steady.
-    a = phase * math.tau - math.pi / 2
-    d.line([(cx, cy), polar(cx, cy, 75, a)], fill=tone(PURPLE), width=2)
-    d.line([(cx, cy), polar(cx, cy, 47, -2.2)], fill=tone("#7b5c94"), width=4)
-    d.ellipse((cx-5, cy-5, cx+5, cy+5), fill=tone(PURPLE))
-    # A small four-point star suggests Madoka without borrowed character art.
-    sx, sy = 676, 99
-    r = 22 + 2 * math.sin(phase * math.tau)
-    star = [(sx, sy-r), (sx+5, sy-5), (sx+r, sy), (sx+5, sy+5), (sx, sy+r), (sx-5, sy+5), (sx-r, sy), (sx-5, sy-5)]
-    d.polygon(star, fill=tone(PINK))
-    d.line((650, 242, 895, 242), fill=tone("#473048"))
-    d.text((683, 260), "H / M", font=font(12), fill=tone("#a48ab8"))
+    homura_clock(canvas, phase)
+    d.text((772, 267), "HOMURA", anchor="mm", font=font(11), fill=tone("#a48ab8"))
     d.ellipse((888, 48, 892, 52), fill=tone(PINK))
     d.ellipse((611, 205, 614, 208), fill=tone(PURPLE))
     return canvas
@@ -160,13 +180,14 @@ def frame(phase, theme="dark"):
 def main():
     destination = ROOT / "assets"
     destination.mkdir(parents=True, exist_ok=True)
-    for theme, stem in [("dark", "header"), ("light", "header-light-wings")]:
-        frames = [frame(index / 60, theme) for index in range(60)]
+    for theme, stem in [("dark", "header-dark-smooth"), ("light", "header-light-wings")]:
+        count, duration = (150, 40) if theme == "dark" else (60, 100)
+        frames = [frame(index / count, theme) for index in range(count)]
         frames[0].save(destination / f"{stem}.png")
         # Use a shared palette to keep colors stable across frames.
         palette = frames[0].quantize(colors=128)
         indexed = [item.quantize(palette=palette, dither=Image.Dither.NONE) for item in frames]
-        indexed[0].save(destination / f"{stem}.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
+        indexed[0].save(destination / f"{stem}.gif", save_all=True, append_images=indexed[1:], duration=duration, loop=0, optimize=False, disposal=1)
     emblem_frames = []
     for index in range(60):
         emblem = Image.new("RGB", (320, 280), "#fff9fc")
