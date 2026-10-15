@@ -59,7 +59,7 @@ Bảng màu: nền `#0b0910`, bề mặt `#100d18`, tím `#c3a5ee`, hồng `#eab
 
 Banner GIF tự lặp, lưu ngay trong repository. Không có máy chủ ảnh động, font từ xa hoặc dịch vụ stats công cộng cần hoạt động mỗi lần mở profile. Dải logo kỹ năng lấy từ [Skill Icons](https://github.com/tandpfun/skill-icons) và đã lưu thành SVG cục bộ, không cần gọi dịch vụ icon khi xem profile. Để đổi dải icon, tải ảnh từ `https://skillicons.dev/icons?i=java,python,react,nodejs,ts&theme=dark&perline=5`, thay danh sách sau `i=` theo kỹ năng thật rồi lưu vào `assets/skill-icons.svg`.
 
-Bố cục hiện tại giữ banner cũ, căn giữa dải kỹ năng, không hiển thị danh sách kho mã. Thống kê nằm trong mục bấm mở để phần đầu profile gọn hơn. Không dùng câu giới thiệu hay thông tin cá nhân chưa xác nhận.
+Bố cục hiện tại giữ banner cũ, căn giữa dải kỹ năng, không hiển thị danh sách kho mã. Thẻ thống kê hiển thị trực tiếp, không có tiêu đề hoặc nút thu gọn. Không dùng câu giới thiệu hay thông tin cá nhân chưa xác nhận.
 
 ### Tạo lại banner trên máy (tùy chọn)
 
@@ -86,6 +86,7 @@ python scripts/update_stats.py
 - Kiểm tra lịch sử Actions nếu dữ liệu cũ. Không cần thay số bằng tay.
 
 README, ảnh và mã cập nhật đều nằm trong repository; bạn có thể chỉnh sửa trực tiếp bất cứ lúc nào.
+
 
 
 

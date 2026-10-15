@@ -20,15 +20,11 @@
 
 <br />
 
-<details>
-  <summary>Thống kê GitHub</summary>
-  <br />
-  <p align="center">
-    <a href="https://github.com/AnkjoD?tab=repositories">
-      <img src="assets/stats-card.svg" width="720" alt="Thống kê GitHub công khai của AnkjoD" />
-    </a>
-  </p>
-</details>
+<p align="center">
+  <a href="https://github.com/AnkjoD?tab=repositories">
+    <img src="assets/stats-card.svg" width="720" alt="Thống kê GitHub công khai của AnkjoD" />
+  </a>
+</p>
 
 <!-- Chỉnh nội dung tại đây; hướng dẫn cài đặt và cập nhật nằm trong SETUP.md. -->
 
