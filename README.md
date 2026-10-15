@@ -1,48 +1,51 @@
 <p align="center">
-  <img src="assets/header.gif" width="960" alt="AnkjoD — Madoka Kaname × Homura Akemi. Đồng hồ tím và ngôi sao hồng trên nền đen." />
+  <img src="assets/header.gif" width="960" alt="AnkjoD — Madoka Kaname × Homura Akemi" />
 </p>
 
 <p align="center">
-  <sub>MADOKA KANAME × HOMURA AKEMI</sub><br />
-  <strong>Một chút hy vọng. Một khoảng lặng giữa những vòng thời gian.</strong>
-</p>
-
-<p align="center">
-  <a href="https://github.com/AnkjoD?tab=repositories">Kho mã nguồn</a>
-  &nbsp; · &nbsp;
+  <a href="https://github.com/AnkjoD?tab=repositories">Dự án</a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/AnkjoD?tab=stars">Đã đánh dấu sao</a>
 </p>
 
----
+<br />
 
-### 01 / Kỹ năng & công cụ
-
-<!-- Danh sách do AnkjoD cung cấp. Không thể hiện mức độ thành thạo. -->
-<p>
-  <img src="assets/skills.svg" width="960" alt="Java · Python · ReactJS · Node.js · TypeScript" />
-</p>
-
-### 02 / Dấu vết trên GitHub
-
-<a href="https://github.com/AnkjoD?tab=repositories">
-  <img src="assets/stats.svg" width="960" alt="Thống kê GitHub công khai của AnkjoD; số liệu và thời điểm cập nhật nằm trong thẻ." />
-</a>
-
-<sub>Dữ liệu công khai · cập nhật hằng ngày khi GitHub Actions hoạt động · số sao và fork tính trên các kho sở hữu, không gồm kho fork.</sub>
-
-<!--
-Chỗ dành cho dự án nổi bật, chỉ thêm khi muốn giới thiệu dự án thật:
-
-### 03 / Dự án nổi bật
-
-- [Tên dự án](https://github.com/AnkjoD/TEN-KHO) — mô tả ngắn điều dự án làm được.
-
-Hướng dẫn chỉnh sửa: xem SETUP.md trong repository.
--->
-
----
+<h3 align="center">Công nghệ sử dụng</h3>
 
 <p align="center">
-  <sub>HY VỌNG / THỜI GIAN</sub><br />
-  <sub>AnkjoD &nbsp; · &nbsp; Madoka × Homura</sub>
+  <img src="assets/skills.svg" width="248" alt="Java, Python, ReactJS, Node.js và TypeScript" />
 </p>
+
+<p align="center">
+  <sub>Java &nbsp; / &nbsp; Python &nbsp; / &nbsp; ReactJS &nbsp; / &nbsp; Node.js &nbsp; / &nbsp; TypeScript</sub>
+</p>
+
+<br />
+
+<h3 align="center">Kho mã nguồn</h3>
+
+<!-- Các kho công khai đã được xác nhận; đổi liên kết khi muốn giới thiệu kho khác. -->
+<p align="center">
+  <a href="https://github.com/AnkjoD/HomuraSmartFace"><strong>HomuraSmartFace</strong></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://github.com/AnkjoD/NhaTroHomu"><strong>NhaTroHomu</strong></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://github.com/AnkjoD/MusicStream"><strong>MusicStream</strong></a>
+</p>
+
+<br />
+
+<details>
+  <summary>Thống kê GitHub</summary>
+  <br />
+  <p align="center">
+    <a href="https://github.com/AnkjoD?tab=repositories">
+      <img src="assets/stats.svg" width="720" alt="Thống kê GitHub công khai của AnkjoD, kèm thời điểm cập nhật" />
+    </a>
+  </p>
+  <p align="center">
+    <sub>Cập nhật hằng ngày · Sao và fork chỉ tính trên các kho sở hữu không phải fork.</sub>
+  </p>
+</details>
+
+<!-- Chỉnh nội dung tại đây; hướng dẫn cài đặt và cập nhật nằm trong SETUP.md. -->

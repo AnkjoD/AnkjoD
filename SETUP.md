@@ -49,15 +49,17 @@ Thẻ đếm: kho công khai sở hữu (kể cả fork), sao và lượt fork t
 | --- | --- |
 | Dòng chữ dưới banner, liên kết, dự án | `README.md` — có chú thích ẩn cho mục dự án |
 | Tên hoặc chữ trên banner | `scripts/make_header.py`, rồi tạo lại ảnh |
-| Danh sách kỹ năng | `assets/skills.svg`: sửa tên trong `<text>` và `<title>`; sửa cả `alt` tương ứng trong README |
-| Màu thẻ kỹ năng | Các mã màu trong `assets/skills.svg` |
+| Danh sách kỹ năng | Thay `assets/skills.svg` bằng dải icon mới từ Skill Icons; sửa tên hiển thị và `alt` tương ứng trong README |
+| Kích thước dải kỹ năng | Thuộc tính `width="248"` của ảnh kỹ năng trong README |
 | Màu và nội dung thống kê | `scripts/update_stats.py`, rồi chạy lại workflow |
 | Tắt chuyển động | Đổi `assets/header.gif` thành `assets/header.png` trong README |
 | Tần suất thống kê | Dòng `cron` trong `.github/workflows/profile-stats.yml` (giờ UTC) |
 
 Bảng màu: nền `#0b0910`, bề mặt `#100d18`, tím `#c3a5ee`, hồng `#eab4c8`, chữ `#eee7f5`. GitHub không cho README đổi nền toàn trang; màu này nằm trong các ảnh và thẻ, vẫn dùng được với theme sáng.
 
-Banner GIF tự lặp, lưu ngay trong repository. Không có máy chủ ảnh động, font từ xa hoặc dịch vụ stats công cộng cần hoạt động mỗi lần mở profile. Các thẻ kỹ năng cũng là SVG cục bộ, không phụ thuộc dịch vụ icon.
+Banner GIF tự lặp, lưu ngay trong repository. Không có máy chủ ảnh động, font từ xa hoặc dịch vụ stats công cộng cần hoạt động mỗi lần mở profile. Dải logo kỹ năng lấy từ [Skill Icons](https://github.com/tandpfun/skill-icons) và đã lưu thành SVG cục bộ, không cần gọi dịch vụ icon khi xem profile. Để đổi dải icon, tải ảnh từ `https://skillicons.dev/icons?i=java,python,react,nodejs,ts&theme=dark&perline=5`, thay danh sách sau `i=` theo kỹ năng thật rồi lưu vào `assets/skills.svg`.
+
+Bố cục hiện tại giữ banner cũ, căn giữa dải kỹ năng và liên kết ba kho mã thật. Thống kê nằm trong mục bấm mở để phần đầu profile gọn hơn. Không dùng câu giới thiệu hay thông tin cá nhân chưa xác nhận.
 
 ### Tạo lại banner trên máy (tùy chọn)
 
