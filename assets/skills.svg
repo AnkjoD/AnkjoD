@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="92" viewBox="0 0 960 92" role="img" aria-labelledby="title">
+  <title id="title">Java · Python · ReactJS · Node.js · TypeScript</title>
+  <rect x="1" y="1" width="958" height="90" rx="14" fill="#100d18" stroke="#33263f"/>
+  <g font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="17" fill="#eee7f5" text-anchor="middle">
+    <g transform="translate(22 20)"><rect width="168" height="52" rx="7" fill="#1c1528"/><path d="M0 15V37" stroke="#c3a5ee" stroke-width="3"/><text x="84" y="32">Java</text></g>
+    <g transform="translate(209 20)"><rect width="168" height="52" rx="7" fill="#1c1528"/><path d="M0 15V37" stroke="#eab4c8" stroke-width="3"/><text x="84" y="32">Python</text></g>
+    <g transform="translate(396 20)"><rect width="168" height="52" rx="7" fill="#1c1528"/><path d="M0 15V37" stroke="#c3a5ee" stroke-width="3"/><text x="84" y="32">ReactJS</text></g>
+    <g transform="translate(583 20)"><rect width="168" height="52" rx="7" fill="#1c1528"/><path d="M0 15V37" stroke="#eab4c8" stroke-width="3"/><text x="84" y="32">Node.js</text></g>
+    <g transform="translate(770 20)"><rect width="168" height="52" rx="7" fill="#1c1528"/><path d="M0 15V37" stroke="#c3a5ee" stroke-width="3"/><text x="84" y="32">TypeScript</text></g>
+  </g>
+</svg>
