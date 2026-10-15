@@ -32,8 +32,8 @@ def polar(cx, cy, radius, angle):
 
 def frame(phase, theme="dark"):
     light_palette = {
-        "#0b0910": "#faf7fc", "#100d18": "#f1ebf6", "#171020": "#eae0ef",
-        "#1c1526": "#e5dbea", "#33263f": "#d0bddc", "#baa6c9": "#6c527d",
+        "#0b0910": "#fff9fc", "#100d18": "#f9edf4", "#171020": "#f3dfeb",
+        "#1c1526": "#efdfeb", "#33263f": "#dec3d6", "#baa6c9": "#895b7b",
         "#eee7f5": "#2b183a", "#b6a6c4": "#755e84", "#4c385e": "#a88fba",
         "#74568c": "#8e6ba4", "#35253f": "#d4c1df", "#aa89c6": "#76538f",
         "#7b5c94": "#8a6a9e", "#473048": "#d7b4c6", "#a48ab8": "#7c5e90",
@@ -48,17 +48,42 @@ def frame(phase, theme="dark"):
     # Restrained diagonal panels and hairline grid.
     d.polygon([(600, 0), (960, 0), (960, 300), (440, 300)], fill=tone("#100d18"))
     d.polygon([(812, 0), (960, 0), (960, 300), (660, 300)], fill=tone("#171020"))
-    for x in range(624, 960, 32):
-        d.line((x, 0, x, 300), fill=tone("#1c1526"))
-    for y in range(22, 300, 32):
-        d.line((600, y, 960, y), fill=tone("#1c1526"))
+    if theme == "dark":
+        for x in range(624, 960, 32):
+            d.line((x, 0, x, 300), fill=tone("#1c1526"))
+        for y in range(22, 300, 32):
+            d.line((600, y, 960, y), fill=tone("#1c1526"))
     d.rectangle((0, 0, 959, 299), outline=tone("#33263f"), width=1)
     d.line((42, 42, 90, 42), fill=tone(PURPLE), width=3)
-    d.text((104, 33), "HOMURA / MADOKA", font=font(13), fill=tone("#baa6c9"))
+    d.text((104, 33), "MADOKA KANAME" if theme == "light" else "HOMURA / MADOKA", font=font(13), fill=tone("#baa6c9"))
     d.text((40, 83), NAME, font=font(68, True), fill=tone("#eee7f5"))
-    d.text((44, 170), "HY VỌNG / THỜI GIAN", font=font(18), fill=tone(PINK))
+    d.text((44, 170), "ÁNH SÁNG / HY VỌNG" if theme == "light" else "HY VỌNG / THỜI GIAN", font=font(18), fill=tone(PINK))
     d.line((44, 218, 435, 218), fill=tone("#33263f"))
     d.text((44, 241), "MADOKA KANAME × HOMURA AKEMI", font=font(12), fill=tone("#b6a6c4"))
+
+    if theme == "light":
+        # Madoka's light motif: a rose, ribbon and a luminous gem; no clock.
+        cx, cy = 776, 147
+        breath = 1 + 0.025 * math.sin(phase * math.tau)
+        for radius, ink, weight in [(107, "#ddb2ce", 1), (83, "#bd7ba3", 2)]:
+            petals = []
+            for index in range(361):
+                angle = index * math.tau / 360
+                distance = radius * breath * (0.79 + 0.21 * math.cos(5 * (angle + math.pi / 2)))
+                petals.append(polar(cx, cy, distance, angle))
+            d.line(petals, fill=ink, width=weight, joint="curve")
+        # A restrained ribbon bow with two long tails.
+        d.polygon([(776, 220), (733, 205), (740, 231), (774, 225)], fill="#ead0df", outline="#bf87a8")
+        d.polygon([(778, 220), (819, 205), (812, 231), (778, 225)], fill="#ead0df", outline="#bf87a8")
+        d.polygon([(773, 225), (760, 257), (773, 251), (779, 227)], fill="#d8a8c3")
+        d.polygon([(780, 225), (794, 253), (799, 246), (784, 223)], fill="#d8a8c3")
+        d.ellipse((771, 218, 783, 230), fill="#b8759a")
+        d.polygon([(776, 121), (791, 147), (776, 173), (761, 147)], fill="#f1d8e7", outline="#b76d97")
+        d.line([(776, 127), (776, 167)], fill="#fff9fc", width=2)
+        for sx, sy, offset in [(655, 91, 0), (870, 66, 0.3), (884, 199, 0.65), (681, 218, 0.8)]:
+            size = 5 + 2 * math.sin((phase + offset) * math.tau)
+            d.polygon([(sx, sy-size), (sx+2, sy-2), (sx+size, sy), (sx+2, sy+2), (sx, sy+size), (sx-2, sy+2), (sx-size, sy), (sx-2, sy-2)], fill="#c38bad")
+        return canvas
 
     cx, cy = 772, 147
     for radius, color in [(111, "#4c385e"), (99, "#74568c"), (84, "#35253f")]:
