@@ -83,4 +83,5 @@ python scripts/update_stats.py
 - Ảnh động không chạy trong một số trình xem Markdown hoặc khi người xem chặn chuyển động. Dùng ảnh PNG nếu muốn.
 - Kiểm tra thời điểm trên thẻ stats và lịch sử Actions nếu dữ liệu cũ. Không cần thay số bằng tay.
 
-Gói này chỉ tạo file để bạn xem và chỉnh sửa; chưa thay đổi tài khoản hay repository trên GitHub.
+README, ảnh và mã cập nhật đều nằm trong repository; bạn có thể chỉnh sửa trực tiếp bất cứ lúc nào.
+
