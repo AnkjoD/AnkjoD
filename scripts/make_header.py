@@ -140,6 +140,46 @@ def homura_clock(canvas, phase):
     canvas.paste(layer,(622,0),layer)
 
 
+def homura_background(canvas, phase):
+    """Looping violet atmosphere and drifting stardust, behind the foreground."""
+    angle = phase * math.tau
+    haze = Image.new("RGBA", (240, 75))
+    glow = ImageDraw.Draw(haze)
+    dx, dy = 10 * math.sin(angle), 5 * math.cos(angle)
+    glow.ellipse((109+dx, -10+dy, 227+dx, 75+dy), fill=(100, 45, 147, 79))
+    glow.ellipse((183-dx, -25-dy, 273-dx, 42-dy), fill=(150, 61, 112, 63))
+    haze = haze.filter(ImageFilter.GaussianBlur(12)).resize((WIDTH, HEIGHT), Image.Resampling.BICUBIC)
+    canvas.paste(haze, (0, 0), haze)
+
+    sky = Image.new("RGBA", (WIDTH, HEIGHT))
+    stars = ImageDraw.Draw(sky)
+    # Broad, low-contrast light ribbons leave the name area quiet.
+    for ribbon in range(2):
+        points = []
+        for x in range(440, 990, 3):
+            y = 93 + 91*ribbon + 32*math.sin((x-440)*0.006 + ribbon) + 13*math.sin(angle + (x-440)*0.004)
+            points.append((x, y))
+        stars.line(points, fill=(119, 77, 157, 55) if ribbon == 0 else (166, 96, 141, 43), width=2)
+    # Long arcs suggest layers in space, without another clock face.
+    stars.arc((604, -22, 964, 316), 193+7*math.sin(angle), 296+7*math.sin(angle), fill=(150, 108, 181, 72), width=1)
+    stars.arc((580, -50, 982, 337), 22-5*math.sin(angle), 108-5*math.sin(angle), fill=(139, 98, 170, 63), width=1)
+    for index in range(26):
+        base_x = 461 + (index*103 % 483)
+        base_y = 19 + (index*67 % 259)
+        offset = index * 2.39996
+        x = base_x + 11*math.sin(angle+offset)
+        y = base_y + 7*math.cos(angle+offset)
+        brightness = (1+math.sin(angle+offset))/2
+        radius = 0.8 + (1.2 if index%5 == 0 else 0.5)*brightness
+        alpha = round(58+123*brightness)
+        stars.ellipse((x-radius,y-radius,x+radius,y+radius), fill=(214, 171, 223, alpha))
+        if index%8 == 0:
+            reach = 3+2*brightness
+            stars.line((x-reach,y,x+reach,y), fill=(220,180,225,alpha//2), width=1)
+            stars.line((x,y-reach,x,y+reach), fill=(220,180,225,alpha//2), width=1)
+    canvas.paste(sky, (0,0), sky)
+
+
 def frame(phase, theme="dark"):
     light_palette = {
         "#0b0910": "#fff9fc", "#100d18": "#f9edf4", "#171020": "#f3dfeb",
@@ -158,6 +198,8 @@ def frame(phase, theme="dark"):
     # Restrained diagonal panels and hairline grid.
     d.polygon([(600, 0), (960, 0), (960, 300), (440, 300)], fill=tone("#100d18"))
     d.polygon([(812, 0), (960, 0), (960, 300), (660, 300)], fill=tone("#171020"))
+    if theme == "dark":
+        homura_background(canvas, phase)
     d.rectangle((0, 0, 959, 299), outline=tone("#33263f"), width=1)
     d.line((42, 42, 90, 42), fill=tone(PURPLE), width=3)
     d.text((104, 33), "MADOKA KANAME" if theme == "light" else "HOMURA / MADOKA", font=font(13), fill=tone("#baa6c9"))
@@ -180,7 +222,7 @@ def frame(phase, theme="dark"):
 def main():
     destination = ROOT / "assets"
     destination.mkdir(parents=True, exist_ok=True)
-    for theme, stem in [("dark", "header-dark-smooth"), ("light", "header-light-wings")]:
+    for theme, stem in [("dark", "header-dark-atmosphere"), ("light", "header-light-wings")]:
         count, duration = (150, 40) if theme == "dark" else (60, 100)
         frames = [frame(index / count, theme) for index in range(count)]
         frames[0].save(destination / f"{stem}.png")
