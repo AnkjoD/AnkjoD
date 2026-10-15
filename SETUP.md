@@ -14,6 +14,8 @@ AnkjoD/
 ├── SETUP.md
 ├── assets/
 │   ├── header.gif
+│   ├── header-light.gif
+│   ├── header-light.png
 │   ├── header.png
 │   ├── skill-icons.svg
 │   └── stats-card.svg
@@ -52,7 +54,7 @@ Thẻ đếm: kho công khai sở hữu (kể cả fork), sao và lượt fork t
 | Danh sách kỹ năng | Thay `assets/skill-icons.svg` bằng dải icon mới từ Skill Icons; sửa tên hiển thị và `alt` tương ứng trong README |
 | Kích thước dải kỹ năng | Thuộc tính `width="273"` của ảnh kỹ năng trong README |
 | Màu và nội dung thống kê | `scripts/update_stats.py`, rồi chạy lại workflow |
-| Tắt chuyển động | Đổi `assets/header.gif` thành `assets/header.png` trong README |
+| Tắt chuyển động | Đổi cả `header.gif` thành `header.png` và `header-light.gif` thành `header-light.png` trong README |
 | Tần suất thống kê | Dòng `cron` trong `.github/workflows/profile-stats.yml` (giờ UTC) |
 
 Bảng màu: nền `#0b0910`, bề mặt `#100d18`, tím `#c3a5ee`, hồng `#eab4c8`, chữ `#eee7f5`. GitHub không cho README đổi nền toàn trang; màu này nằm trong các ảnh và thẻ, vẫn dùng được với theme sáng.
@@ -89,4 +91,11 @@ README, ảnh và mã cập nhật đều nằm trong repository; bạn có th�
 
 
 
+
+
+## Banner tự đổi sáng / tối
+
+README dùng phần tử picture với prefers-color-scheme theo hỗ trợ của GitHub. Dark mode dùng assets/header.gif; light mode dùng assets/header-light.gif. Cả hai là GIF vòng lặp 6 giây, có bản PNG tương ứng. Bản sáng giữ bố cục, đổi sang nền trắng tím nhạt và chữ tím đậm. Trình xem không hỗ trợ picture sẽ dùng banner tối mặc định.
+
+Tài liệu: https://github.blog/changelog/2022-08-15-specify-theme-context-for-images-in-markdown-ga/
 

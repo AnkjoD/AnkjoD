@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="assets/header.gif" width="960" alt="AnkjoD — Madoka Kaname × Homura Akemi" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/header.gif" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/header-light.gif" />
+    <img src="assets/header.gif" width="960" alt="AnkjoD — Madoka Kaname × Homura Akemi" />
+  </picture>
 </p>
 
 <p align="center">
