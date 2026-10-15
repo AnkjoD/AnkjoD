@@ -33,24 +33,32 @@ def polar(cx, cy, radius, angle):
 def law_of_cycles(d, phase, cx=776, cy=135):
     """A simplified vector interpretation of the Rebellion emblem, not an official asset."""
     pulse = math.sin(phase * math.tau)
-    # Gold annulus with evenly repeated segments; one segment per loop is seamless.
+    # A complete revolution per loop, made visible by asymmetric highlights.
     for radius, ink, width in [(82, "#c7a888", 3), (76, "#dfc4ad", 1), (67, "#b77e9e", 2)]:
         d.ellipse((cx-radius, cy-radius, cx+radius, cy+radius), outline=ink, width=width)
     for index in range(48):
-        angle = (index + phase) * math.tau / 48
+        angle = index * math.tau / 48 + phase * math.tau
         d.line([polar(cx, cy, 77, angle), polar(cx, cy, 81, angle)], fill="#b38c72", width=2)
+    sweep = phase * 360
+    for offset, ink in [(0, "#ad5686"), (180, "#d29ab9")]:
+        d.arc((cx-85, cy-85, cx+85, cy+85), start=sweep+offset, end=sweep+offset+48, fill=ink, width=4)
+    for tail in range(7):
+        angle = phase * math.tau - tail * 0.045
+        x, y = polar(cx, cy, 91, angle)
+        radius = max(1, 4 - tail * 0.5)
+        d.ellipse((x-radius, y-radius, x+radius, y+radius), fill="#bf6e9c" if tail < 3 else "#e5bcd4")
     # Eight-point compass star, with the vertical tips slightly longer.
     star = []
     for index in range(32):
-        angle = index * math.tau / 32 - math.pi / 2
+        angle = index * math.tau / 32 - math.pi / 2 + math.radians(8) * pulse
         if index % 4 == 0:
-            radius = (100 if index in (0, 16) else 87) * (1 + 0.012 * pulse)
+            radius = (100 if index in (0, 16) else 87) * (1 + 0.045 * pulse)
         elif index % 2 == 0:
             radius = 25
         else:
             radius = 13
         star.append(polar(cx, cy, radius, angle))
-    ink = tuple(round(base + 5 * pulse) for base in (188, 91, 145))
+    ink = tuple(round(base + 18 * pulse) for base in (188, 91, 145))
     d.polygon(star, fill=ink)
     d.ellipse((cx-8, cy-8, cx+8, cy+8), fill="#fff5fc")
     # Crown and small round finial.
@@ -71,7 +79,7 @@ def law_of_cycles(d, phase, cx=776, cy=135):
     wing += [(-101, 35), (-85, 54), (-62, 59), (-87, 53), (-70, 70), (-43, 73), (-68, 69), (-46, 85), (-18, 80), (0, 69)]
     for sign in (-1, 1):
         def wing_point(x, y):
-            return (cx + sign*x, cy + y - 3 * pulse * abs(x) / 111)
+            return (cx + sign*x, cy + y - 14 * pulse * abs(x) / 111)
         points = [wing_point(x, y) for x, y in wing]
         d.polygon(points, fill="#fffafd", outline="#b991aa")
         for y, reach in [(45, 82), (58, 66), (70, 47)]:
@@ -147,7 +155,7 @@ def frame(phase, theme="dark"):
 def main():
     destination = ROOT / "assets"
     destination.mkdir(parents=True, exist_ok=True)
-    for theme, stem in [("dark", "header"), ("light", "header-light")]:
+    for theme, stem in [("dark", "header"), ("light", "header-light-motion")]:
         frames = [frame(index / 60, theme) for index in range(60)]
         frames[0].save(destination / f"{stem}.png")
         # Use a shared palette to keep colors stable across frames.
@@ -159,10 +167,10 @@ def main():
         emblem = Image.new("RGB", (320, 280), "#fff9fc")
         law_of_cycles(ImageDraw.Draw(emblem), index / 60, 160, 135)
         emblem_frames.append(emblem)
-    emblem_frames[0].save(destination / "law-of-cycles.png")
+    emblem_frames[0].save(destination / "law-of-cycles-motion.png")
     palette = emblem_frames[0].quantize(colors=128)
     indexed = [item.quantize(palette=palette, dither=Image.Dither.NONE) for item in emblem_frames]
-    indexed[0].save(destination / "law-of-cycles.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
+    indexed[0].save(destination / "law-of-cycles-motion.gif", save_all=True, append_images=indexed[1:], duration=100, loop=0, optimize=False, disposal=1)
     print("Generated animated and static banners for light and dark themes")
 
 
